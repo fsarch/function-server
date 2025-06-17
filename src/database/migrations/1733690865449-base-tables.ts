@@ -106,7 +106,7 @@ export class BaseTables1720373216667 implements MigrationInterface {
           name: 'UQ__function_version__function_id__is_active',
           columnNames: ['function_id', 'is_active'],
           isUnique: true,
-          where: 'deletion_time IS NULL'
+          where: 'is_active = true AND deletion_time IS NULL'
         }, {
           name: 'IDX__function_version__function_id__is_active',
           columnNames: ['function_id', 'is_active'],

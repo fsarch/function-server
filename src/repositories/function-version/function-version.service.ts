@@ -96,14 +96,14 @@ export class FunctionVersionService {
     functionVersion.publishTime = new Date();
 
     await this.functionVersionRepository.manager.transaction(async (entityManager) => {
-      await entityManager.save(functionVersion);
-
       await entityManager.update(FunctionVersion, {
         functionId,
         publishTime: Not(IsNull()),
       }, {
         isActive: false,
       });
+
+      await entityManager.save(functionVersion);
     });
 
     return functionVersion;
