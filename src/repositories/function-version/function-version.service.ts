@@ -22,6 +22,15 @@ export class FunctionVersionService {
     });
   }
 
+  public async GetVersion(functionId: string, versionId: string) {
+    return this.functionVersionRepository.findOne({
+      where: {
+        functionId,
+        id: versionId,
+      },
+    });
+  }
+
   public async ListVersions(functionId: string) {
     return this.functionVersionRepository.find({
       where: {

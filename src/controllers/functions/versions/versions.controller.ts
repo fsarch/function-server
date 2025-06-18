@@ -36,6 +36,16 @@ export class VersionsController {
     return FunctionVersionDto.FromDbo(functionVersion);
   }
 
+  @Get(':versionId')
+  public async GetVersion(
+    @Param('functionId') functionId: string,
+    @Param('versionId') versionId: string,
+  ): Promise<FunctionVersionDto> {
+    const functionVersion = await this.versionService.GetVersion(functionId, versionId);
+
+    return FunctionVersionDto.FromDbo(functionVersion);
+  }
+
   @Put()
   public async SetVersion(
     @Param('functionId') functionId: string,
