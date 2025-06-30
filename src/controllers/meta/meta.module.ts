@@ -15,6 +15,15 @@ import Joi from "joi";
               type: 'pdf-server',
               url: Joi.string().required(),
             }),
+            Joi.object({
+              type: 'material-tracing-server',
+              url: Joi.string().required(),
+            }),
+            Joi.object({
+              type: 'product-server',
+              url: Joi.string().required(),
+              catalogId: Joi.string().required(),
+            }),
           ),
         ).required(),
       }).required(),
