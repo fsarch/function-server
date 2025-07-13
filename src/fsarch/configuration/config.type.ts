@@ -2,6 +2,7 @@ export type ConfigType = {
   auth: ConfigAuthType;
   uac: ConfigStaticUacType;
   database: ConfigDatabaseType;
+  printer?: ConfigPrinterType;
 };
 
 export type ConfigAuthType = ConfigStaticAuthType | ConfigJwtJwkAuthType;
@@ -69,4 +70,9 @@ type ConfigCockroachdbDatabaseType = {
           path: string;
         };
   };
+};
+
+export type ConfigPrinterType = {
+  type: string;
+  url: string;
 };

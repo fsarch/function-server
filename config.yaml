@@ -1,0 +1,35 @@
+auth:
+  type: static
+  secret: "test-secret-key"
+  users:
+    - id: "user1"
+      username: "admin"
+      password: "password"
+
+uac:
+  type: static
+  users:
+    - user_id: "user1"
+      permissions:
+        - "manage_images"
+
+database:
+  type: sqlite
+  database: ":memory:"
+
+printer:
+  type: "http"
+  url: "http://localhost:8080/print"
+
+worker:
+  api:
+    pdf-service:
+      type: "pdf-server"
+      url: "http://localhost:8080/pdf"
+    material-tracing-service:
+      type: "material-tracing-server"
+      url: "http://localhost:8080/material-tracing"
+    product-service:
+      type: "product-server"
+      url: "http://localhost:8080/products"
+      catalogId: "default-catalog"

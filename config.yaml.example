@@ -1,0 +1,23 @@
+auth:
+  type: static
+  secret: "your-secret-key-here"
+  users:
+    - id: "user1"
+      username: "admin"
+      password: "password"
+
+uac:
+  type: static
+  users:
+    - user_id: "user1"
+      permissions:
+        - "manage_images"
+
+database:
+  type: sqlite
+  database: "./data/function-server.db"
+
+# Printer configuration for pdf, materialTracing, and product printing
+printer:
+  type: "http"  # Type of printer service (e.g., http, local, etc.)
+  url: "http://localhost:8080/print"  # URL endpoint for the printer service
