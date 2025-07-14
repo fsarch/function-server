@@ -24,6 +24,10 @@ import Joi from "joi";
               url: Joi.string().required(),
               catalogId: Joi.string().required(),
             }),
+            Joi.object({
+              type: 'printer-server',
+              url: Joi.string().required(),
+            }),
           ),
         ).required(),
       }).required(),
