@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import Joi from 'joi';
 import { ConfigType } from './config.type.js';
 
-const YAML_CONFIG_FILENAME = 'config.yaml';
+const YAML_CONFIG_FILENAME = 'config.yml';
 
 const CONFIG_VALIDATION_SCHEMA = Joi.any(
   //{

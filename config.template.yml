@@ -1,0 +1,33 @@
+auth:
+  type: "static"
+  secret: "test-secret-key"
+  users:
+    - id: "test-user"
+      username: "admin"
+      password: "password"
+
+uac:
+  type: "static"
+  users:
+    - user_id: "test-user"
+      permissions: ["manage_images"]
+
+database:
+  type: "sqlite"
+  database: ":memory:"
+
+worker:
+  api:
+    pdf:
+      type: "pdf-server"
+      url: "http://pdf-service:3000"
+    materialTracing:
+      type: "material-tracing-server" 
+      url: "http://material-tracing-service:3000"
+    product:
+      type: "product-server"
+      url: "http://product-service:3000"
+      catalogId: "default-catalog"
+    printer:
+      type: "printer-server"
+      url: "http://printer-service:3000"
