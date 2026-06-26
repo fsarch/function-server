@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ModuleConfigurationService } from "../../fsarch/configuration/module/module-configuration.service.js";
+import { ModuleConfigurationService } from '@fsarch/server/configuration';
 import { WorkerConfigType } from "./meta.type.js";
 
 @ApiTags('.meta')
