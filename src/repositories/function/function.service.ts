@@ -30,4 +30,18 @@ export class FunctionService {
 
     return savedFunction;
   }
+
+  public async Patch(id: string, patchDto: any) {
+    const existingFunction = await this.functionRepository.findOne({
+      where: { id },
+    });
+    if (!existingFunction) {
+      throw new Error('Function not found');
+    }
+
+    const updatedFunction = this.functionRepository.merge(existingFunction, patchDto);
+    const savedFunction = await this.functionRepository.save(updatedFunction);
+
+    return savedFunction;
+  }
 }

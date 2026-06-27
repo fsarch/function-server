@@ -29,6 +29,33 @@ export class FunctionCreateDto {
   retentionTimeSeconds: number;
 }
 
+export class FunctionPatchDto {
+  @ApiProperty({
+    required: false,
+  })
+  name?: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  externalId?: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  enableDebugLogging?: boolean;
+
+  @ApiProperty({
+    required: false,
+  })
+  enableErrorLogging?: boolean;
+
+  @ApiProperty({
+    required: false,
+  })
+  retentionTimeSeconds?: number;
+}
+
 export class FunctionDto {
   public static FromDbo(material: FunctionEntity): FunctionDto {
     const materialDto = new FunctionDto();

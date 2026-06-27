@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { FunctionCreateDto, FunctionDto } from "../../models/function.model.js";
+import { FunctionCreateDto, FunctionDto, FunctionPatchDto } from "../../models/function.model.js";
 import { FunctionService } from "../../repositories/function/function.service.js";
 
 @ApiTags('functions')
@@ -28,5 +28,11 @@ export class FunctionsController {
     return {
       id: createdFunction.id,
     };
+  }
+
+  @Patch(':id')
+  public async Patch(@Param('id') id: string, @Body() patchDto: FunctionPatchDto): Promise<FunctionDto> {
+    const patchedFunction = await this.functionService.Patch(id, patchDto);
+    return FunctionDto.FromDbo(patchedFunction);
   }
 }
