@@ -1,5 +1,5 @@
 import { Body, ConflictException, Controller, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags, ApiNotFoundResponse, ApiConflictResponse } from "@nestjs/swagger";
 import {
   FunctionVersionDto,
   FunctionVersionSetDto
@@ -19,6 +19,12 @@ export class VersionsController {
   }
 
   @Get()
+  @ApiOperation({
+    summary: 'List all versions of a function',
+    description: 'Returns a list of all versions for a specific function',
+  })
+  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
+  @ApiOkResponse({ type: [FunctionVersionDto], description: 'List of function versions' })
   public async List(
     @Param('functionId') functionId: string,
   ): Promise<Array<FunctionVersionDto>> {
@@ -28,6 +34,13 @@ export class VersionsController {
   }
 
   @Get('active')
+  @ApiOperation({
+    summary: 'Get active version of a function',
+    description: 'Returns the currently active version for a specific function',
+  })
+  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
+  @ApiOkResponse({ type: FunctionVersionDto, description: 'Active function version' })
+  @ApiNotFoundResponse({ description: 'No active version found' })
   public async GetActiveVersion(
     @Param('functionId') functionId: string,
   ): Promise<FunctionVersionDto> {
@@ -37,6 +50,14 @@ export class VersionsController {
   }
 
   @Get(':versionId')
+  @ApiOperation({
+    summary: 'Get a specific version of a function',
+    description: 'Returns a specific version by ID for a function',
+  })
+  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
+  @ApiParam({ name: 'versionId', description: 'UUID of the version', type: String })
+  @ApiOkResponse({ type: FunctionVersionDto, description: 'Function version' })
+  @ApiNotFoundResponse({ description: 'Version not found' })
   public async GetVersion(
     @Param('functionId') functionId: string,
     @Param('versionId') versionId: string,
@@ -47,6 +68,13 @@ export class VersionsController {
   }
 
   @Put()
+  @ApiOperation({
+    summary: 'Create or update a function version',
+    description: 'Creates a new version or updates an existing one for a function',
+  })
+  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
+  @ApiBody({ type: FunctionVersionSetDto, description: 'Version data to set' })
+  @ApiCreatedResponse({ type: Object, description: 'Created version ID' })
   public async SetVersion(
     @Param('functionId') functionId: string,
     @Body() setDto: FunctionVersionSetDto,
@@ -59,6 +87,13 @@ export class VersionsController {
   }
 
   @Post('_actions/publish')
+  @ApiOperation({
+    summary: 'Publish the latest version',
+    description: 'Publishes the latest version of a function',
+  })
+  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
+  @ApiCreatedResponse({ type: Object, description: 'Published version ID' })
+  @ApiConflictResponse({ description: 'No version available to publish' })
   public async PublishLatestVersion(
     @Param('functionId') functionId: string,
   ): Promise<{ id: string; }> {
@@ -73,6 +108,14 @@ export class VersionsController {
   }
 
   @Post(':versionId/_actions/publish')
+  @ApiOperation({
+    summary: 'Publish a specific version',
+    description: 'Publishes a specific version of a function',
+  })
+  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
+  @ApiParam({ name: 'versionId', description: 'UUID of the version to publish', type: String })
+  @ApiCreatedResponse({ type: Object, description: 'Published version ID' })
+  @ApiNotFoundResponse({ description: 'Version not found' })
   public async PublishVersion(
     @Param('functionId') functionId: string,
     @Param('versionId') versionId: string,

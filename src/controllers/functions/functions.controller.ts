@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { FunctionCreateDto, FunctionDto, FunctionPatchDto } from "../../models/function.model.js";
 import { FunctionService } from "../../repositories/function/function.service.js";
 
@@ -15,6 +15,11 @@ export class FunctionsController {
   ) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'List all functions',
+    description: 'Returns a list of all functions with their configuration settings',
+  })
+  @ApiOkResponse({ type: [FunctionDto], description: 'List of functions' })
   public async List(): Promise<Array<FunctionDto>> {
     const functions = await this.functionService.ListServices();
 
@@ -22,6 +27,12 @@ export class FunctionsController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Create a new function',
+    description: 'Creates a new function with the provided configuration',
+  })
+  @ApiBody({ type: FunctionCreateDto, description: 'Function data to create' })
+  @ApiCreatedResponse({ type: Object, description: 'Created function ID' })
   public async Create(@Body() createDto: FunctionCreateDto): Promise<{ id: string; }> {
     const createdFunction = await this.functionService.Create(createDto);
 
@@ -31,6 +42,13 @@ export class FunctionsController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Update a function',
+    description: 'Partially updates a function by ID. Only provided fields will be changed.',
+  })
+  @ApiParam({ name: 'id', description: 'UUID of the function to update', type: String })
+  @ApiBody({ type: FunctionPatchDto, description: 'Function fields to update' })
+  @ApiOkResponse({ type: FunctionDto, description: 'Updated function' })
   public async Patch(@Param('id') id: string, @Body() patchDto: FunctionPatchDto): Promise<FunctionDto> {
     const patchedFunction = await this.functionService.Patch(id, patchDto);
     return FunctionDto.FromDbo(patchedFunction);
