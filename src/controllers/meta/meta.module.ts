@@ -28,6 +28,10 @@ import Joi from "joi";
               type: 'printer-server',
               url: Joi.string().required(),
             }),
+            Joi.object({
+              type: 'metric-server',
+              url: Joi.string().required(),
+            }),
           ),
         ).required(),
       }).required(),

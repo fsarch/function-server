@@ -1,6 +1,6 @@
 export type WorkerConfigType = {
   api: {
-    [key: string]: 
+    [key: string]:
       | {
           type: 'pdf-server';
           url: string;
@@ -16,6 +16,10 @@ export type WorkerConfigType = {
         }
       | {
           type: 'printer-server';
+          url: string;
+        }
+      | {
+          type: 'metric-server';
           url: string;
         };
   };
