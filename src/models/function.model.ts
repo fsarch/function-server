@@ -9,6 +9,24 @@ export class FunctionCreateDto {
     required: false,
   })
   externalId: string;
+
+  @ApiProperty({
+    required: false,
+    default: false,
+  })
+  enableDebugLogging: boolean;
+
+  @ApiProperty({
+    required: false,
+    default: true,
+  })
+  enableErrorLogging: boolean;
+
+  @ApiProperty({
+    required: false,
+    default: 3600,
+  })
+  retentionTimeSeconds: number;
 }
 
 export class FunctionDto {
@@ -18,6 +36,9 @@ export class FunctionDto {
     materialDto.id = material.id;
     materialDto.name = material.name;
     materialDto.externalId = material.externalId;
+    materialDto.enableDebugLogging = material.enableDebugLogging;
+    materialDto.enableErrorLogging = material.enableErrorLogging;
+    materialDto.retentionTimeSeconds = material.retentionTimeSeconds;
     materialDto.creationTime = material.creationTime;
 
     return materialDto;
@@ -31,6 +52,15 @@ export class FunctionDto {
 
   @ApiProperty()
   externalId: string;
+
+  @ApiProperty()
+  enableDebugLogging: boolean;
+
+  @ApiProperty()
+  enableErrorLogging: boolean;
+
+  @ApiProperty()
+  retentionTimeSeconds: number;
 
   @ApiProperty()
   creationTime: Date;

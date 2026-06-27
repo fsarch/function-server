@@ -21,6 +21,9 @@ export class FunctionService {
       id: crypto.randomUUID(),
       name: createDto.name,
       externalId: createDto.externalId,
+      enableDebugLogging: createDto.enableDebugLogging ?? false,
+      enableErrorLogging: createDto.enableErrorLogging ?? true,
+      retentionTimeSeconds: createDto.retentionTimeSeconds ?? 3600,
     });
 
     const savedFunction = await this.functionRepository.save(createdFunction);

@@ -32,6 +32,24 @@ export class BaseTables1720373216667 implements MigrationInterface {
             default: "''",
           },
           {
+            name: 'enable_debug_logging',
+            type: 'boolean',
+            isNullable: false,
+            default: false,
+          },
+          {
+            name: 'enable_error_logging',
+            type: 'boolean',
+            isNullable: false,
+            default: true,
+          },
+          {
+            name: 'retention_time_seconds',
+            type: 'int',
+            isNullable: false,
+            default: 3600,
+          },
+          {
             name: 'creation_time',
             type: getDataType(databaseType, 'timestamp'),
             isNullable: false,
