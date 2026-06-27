@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { FunctionCreateDto, FunctionDto, FunctionPatchDto } from "../../models/function.model.js";
 import { FunctionService } from "../../repositories/function/function.service.js";
 
@@ -24,6 +24,19 @@ export class FunctionsController {
     const functions = await this.functionService.ListServices();
 
     return functions.map(FunctionDto.FromDbo);
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Get a specific function',
+    description: 'Returns details of a specific function by ID',
+  })
+  @ApiParam({ name: 'id', description: 'UUID of the function', type: String })
+  @ApiOkResponse({ type: FunctionDto, description: 'Function details' })
+  @ApiNotFoundResponse({ description: 'Function not found' })
+  public async GetById(@Param('id') id: string): Promise<FunctionDto> {
+    const functionEntity = await this.functionService.GetById(id);
+    return FunctionDto.FromDbo(functionEntity);
   }
 
   @Post()

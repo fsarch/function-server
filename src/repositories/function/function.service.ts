@@ -16,6 +16,16 @@ export class FunctionService {
     return this.functionRepository.find();
   }
 
+  public async GetById(id: string) {
+    const functionEntity = await this.functionRepository.findOne({
+      where: { id },
+    });
+    if (!functionEntity) {
+      throw new Error('Function not found');
+    }
+    return functionEntity;
+  }
+
   public async Create(createDto: FunctionCreateDto) {
     const createdFunction = this.functionRepository.create({
       id: crypto.randomUUID(),
