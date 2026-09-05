@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from "typeorm";
 import { FunctionEntity } from "../../database/entities/function.entity.js";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FunctionCreateDto } from 'src/models/function.model.js';
+import { FunctionCreateDto } from '../../models/function.model.js';
 
 @Injectable()
 export class FunctionService {
