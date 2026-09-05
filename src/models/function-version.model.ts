@@ -24,6 +24,11 @@ export class FunctionVersionCreateDto {
     required: false,
   })
   publishTime: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  description?: string;
 }
 
 export class FunctionVersionSetDto {
@@ -31,6 +36,16 @@ export class FunctionVersionSetDto {
     required: true,
   })
   code: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  name?: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  description?: string;
 }
 
 export class FunctionVersionDto {
@@ -40,6 +55,8 @@ export class FunctionVersionDto {
     materialDto.id = material.id;
     materialDto.functionId = material.functionId;
     materialDto.externalId = material.externalId;
+    materialDto.name = material.name;
+    materialDto.description = material.description;
     materialDto.isActive = material.isActive;
     materialDto.code = material.code;
     materialDto.publishTime = material.publishTime;
@@ -56,6 +73,12 @@ export class FunctionVersionDto {
 
   @ApiProperty()
   externalId: string;
+
+  @ApiProperty({ nullable: true })
+  name?: string;
+
+  @ApiProperty({ nullable: true })
+  description?: string;
 
   @ApiProperty()
   isActive: boolean;

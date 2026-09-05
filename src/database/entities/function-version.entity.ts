@@ -30,6 +30,21 @@ export class FunctionVersion {
   externalId: string;
 
   @Column({
+    name: 'name',
+    type: 'varchar',
+    length: '512',
+    nullable: true,
+  })
+  name?: string;
+
+  @Column({
+    name: 'description',
+    type: 'text',
+    nullable: true,
+  })
+  description?: string;
+
+  @Column({
     name: 'is_active',
     nullable: false,
     type: 'boolean',

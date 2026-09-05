@@ -28,6 +28,7 @@ export class ExecutionDto {
     const dto = new ExecutionDto();
     dto.id = execution.id;
     dto.functionId = execution.functionId;
+    dto.functionVersionId = execution.functionVersionId;
     dto.isSuccess = execution.isSuccess;
     dto.arguments = execution.arguments;
     dto.response = execution.response;
@@ -42,11 +43,14 @@ export class ExecutionDto {
   @ApiProperty()
   functionId: string;
 
+  @ApiProperty({ nullable: true })
+  functionVersionId?: string;
+
   @ApiProperty()
   isSuccess: boolean;
 
-  @ApiProperty({ type: Object, nullable: true })
-  arguments?: Record<string, unknown>;
+  @ApiProperty({ type: 'array', items: { type: 'object' }, nullable: true })
+  arguments?: Array<unknown>;
 
   @ApiProperty({ type: Object, nullable: true })
   response?: Record<string, unknown>;
@@ -63,11 +67,14 @@ export class ExecutionCreateDto {
   @ApiProperty()
   functionId: string;
 
+  @ApiProperty({ required: false, nullable: true })
+  functionVersionId?: string;
+
   @ApiProperty()
   isSuccess: boolean;
 
-  @ApiProperty({ type: Object, nullable: true })
-  arguments?: Record<string, unknown>;
+  @ApiProperty({ type: 'array', items: { type: 'object' }, nullable: true })
+  arguments?: Array<unknown>;
 
   @ApiProperty({ type: Object, nullable: true })
   response?: Record<string, unknown>;

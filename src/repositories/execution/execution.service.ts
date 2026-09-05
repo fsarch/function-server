@@ -44,6 +44,7 @@ export class ExecutionService {
     const execution = this.executionRepository.create({
       id: crypto.randomUUID(),
       functionId: createDto.functionId,
+      functionVersionId: createDto.functionVersionId,
       isSuccess: createDto.isSuccess,
       arguments: createDto.arguments,
       response: createDto.response,
