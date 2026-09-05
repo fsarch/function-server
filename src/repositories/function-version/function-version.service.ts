@@ -62,6 +62,14 @@ export class FunctionVersionService {
     }
 
     functionVersion.code = setDto.code;
+    // Only touch name/description when explicitly provided, so repeated
+    // saves of the code alone don't wipe out previously set metadata.
+    if (setDto.name !== undefined) {
+      functionVersion.name = setDto.name;
+    }
+    if (setDto.description !== undefined) {
+      functionVersion.description = setDto.description;
+    }
 
     await this.functionVersionRepository.save(functionVersion);
 
