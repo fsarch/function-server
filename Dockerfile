@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
+
 # Production Deps
 FROM base AS deps
 
@@ -17,6 +18,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN npm ci --fetch-timeout=300000
+
 
 # Build Dockerfile
 FROM base AS builder
@@ -30,10 +32,17 @@ RUN npm ci --fetch-timeout=300000
 COPY . ./
 RUN npm run build
 
+
 # Main Dockerfile
 FROM base
 
 ENV NODE_ENV production
+ENV PORT 8080
+# Preload OpenTelemetry auto-instrumentation before the app's own module
+# graph loads (required for tracing to pick up http/express/pg/nest spans;
+# see @fsarch/server/register). No-op unless tracing.enabled: true is set
+# in config.yml.
+ENV NODE_OPTIONS="--import @fsarch/server/register"
 
 EXPOSE 8080
 
