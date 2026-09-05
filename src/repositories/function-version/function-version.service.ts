@@ -96,12 +96,13 @@ export class FunctionVersionService {
   }
 
   public async Publish(functionId: string, versionId: string) {
+    // No isActive/publishTime constraint here: this also has to find versions
+    // that were already published before (and are currently inactive), so a
+    // caller can roll back to an older version, not just publish a fresh draft.
     let functionVersion = await this.functionVersionRepository.findOne({
       where: {
         id: versionId,
         functionId,
-        isActive: false,
-        publishTime: IsNull(),
       },
     });
 
@@ -110,7 +111,11 @@ export class FunctionVersionService {
     }
 
     functionVersion.isActive = true;
-    functionVersion.publishTime = new Date();
+    // Keep the original first-publish timestamp when re-activating a version
+    // that was published before; only stamp it on the very first publish.
+    if (!functionVersion.publishTime) {
+      functionVersion.publishTime = new Date();
+    }
 
     await this.functionVersionRepository.manager.transaction(async (entityManager) => {
       await entityManager.update(FunctionVersion, {
