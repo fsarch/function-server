@@ -110,7 +110,7 @@ export class VersionsController {
   @Post(':versionId/_actions/publish')
   @ApiOperation({
     summary: 'Publish a specific version',
-    description: 'Publishes a specific version of a function',
+    description: 'Publishes a specific version of a function, activating it. Also works for a version that was already published before, allowing a rollback to an older version.',
   })
   @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
   @ApiParam({ name: 'versionId', description: 'UUID of the version to publish', type: String })
