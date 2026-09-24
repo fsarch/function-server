@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { VersionsController } from "./versions.controller.js";
-import { FunctionVersionModule } from "../../../repositories/function-version/function-version.module.js";
+import { FunctionVersionModule } from '../../../repositories/function-version/function-version.module.js';
+import { VersionsController } from './versions.controller.js';
 
 @Module({
   controllers: [VersionsController],

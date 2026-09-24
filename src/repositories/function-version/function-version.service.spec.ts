@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { FunctionVersion } from '../../database/entities/function-version.entity.js';
 import { FunctionVersionService } from './function-version.service.js';
 
 describe('FunctionVersionService', () => {
@@ -6,7 +8,10 @@ describe('FunctionVersionService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FunctionVersionService],
+      providers: [
+        FunctionVersionService,
+        { provide: getRepositoryToken(FunctionVersion), useValue: {} },
+      ],
     }).compile();
 
     service = module.get<FunctionVersionService>(FunctionVersionService);

@@ -1,5 +1,5 @@
-import { AppModule } from './app.module.js';
 import { FsArchAppBuilder } from '@fsarch/server';
+import { AppModule } from './app.module.js';
 import { DATABASE_OPTIONS } from './database/index.js';
 
 async function bootstrap() {

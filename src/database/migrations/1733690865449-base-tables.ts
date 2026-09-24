@@ -61,11 +61,13 @@ export class BaseTables1720373216667 implements MigrationInterface {
             isNullable: true,
           },
         ],
-        indices: [{
-          name: 'IDX__external_id',
-          columnNames: ['external_id'],
-        }]
-      })
+        indices: [
+          {
+            name: 'IDX__external_id',
+            columnNames: ['external_id'],
+          },
+        ],
+      }),
     );
     // endregion
 
@@ -120,24 +122,30 @@ export class BaseTables1720373216667 implements MigrationInterface {
             isNullable: true,
           },
         ],
-        indices: [{
-          name: 'UQ__function_version__function_id__is_active',
-          columnNames: ['function_id', 'is_active'],
-          isUnique: true,
-          where: 'is_active = true AND deletion_time IS NULL'
-        }, {
-          name: 'IDX__function_version__function_id__is_active',
-          columnNames: ['function_id', 'is_active'],
-        }, {
-          name: 'IDX__function_version__external_id',
-          columnNames: ['external_id'],
-        }],
-        foreignKeys: [{
-          name: 'FK__function_version__function_id',
-          columnNames: ['function_id'],
-          referencedTableName: 'function',
-          referencedColumnNames: ['id'],
-        }],
+        indices: [
+          {
+            name: 'UQ__function_version__function_id__is_active',
+            columnNames: ['function_id', 'is_active'],
+            isUnique: true,
+            where: 'is_active = true AND deletion_time IS NULL',
+          },
+          {
+            name: 'IDX__function_version__function_id__is_active',
+            columnNames: ['function_id', 'is_active'],
+          },
+          {
+            name: 'IDX__function_version__external_id',
+            columnNames: ['external_id'],
+          },
+        ],
+        foreignKeys: [
+          {
+            name: 'FK__function_version__function_id',
+            columnNames: ['function_id'],
+            referencedTableName: 'function',
+            referencedColumnNames: ['id'],
+          },
+        ],
       }),
     );
     // endregion

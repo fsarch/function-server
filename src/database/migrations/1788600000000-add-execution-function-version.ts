@@ -1,6 +1,14 @@
-import { MigrationInterface, QueryRunner, TableColumn, TableForeignKey, TableIndex } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  TableColumn,
+  TableForeignKey,
+  TableIndex,
+} from 'typeorm';
 
-export class AddExecutionFunctionVersion1788600000000 implements MigrationInterface {
+export class AddExecutionFunctionVersion1788600000000
+  implements MigrationInterface
+{
   name = 'AddExecutionFunctionVersion1788600000000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -56,8 +64,14 @@ export class AddExecutionFunctionVersion1788600000000 implements MigrationInterf
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropColumn('function_version', 'description');
     await queryRunner.dropColumn('function_version', 'name');
-    await queryRunner.dropIndex('execution', 'IDX__execution__function_version_id');
-    await queryRunner.dropForeignKey('execution', 'FK__execution__function_version_id');
+    await queryRunner.dropIndex(
+      'execution',
+      'IDX__execution__function_version_id',
+    );
+    await queryRunner.dropForeignKey(
+      'execution',
+      'FK__execution__function_version_id',
+    );
     await queryRunner.dropColumn('execution', 'function_version_id');
   }
 }

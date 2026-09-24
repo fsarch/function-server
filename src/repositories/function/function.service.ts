@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from "typeorm";
-import { FunctionEntity } from "../../database/entities/function.entity.js";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { FunctionEntity } from '../../database/entities/function.entity.js';
 import { FunctionCreateDto } from '../../models/function.model.js';
 
 @Injectable()
@@ -9,8 +9,7 @@ export class FunctionService {
   constructor(
     @InjectRepository(FunctionEntity)
     private readonly functionRepository: Repository<FunctionEntity>,
-  ) {
-  }
+  ) {}
 
   public async ListServices() {
     return this.functionRepository.find();
@@ -49,7 +48,10 @@ export class FunctionService {
       throw new Error('Function not found');
     }
 
-    const updatedFunction = this.functionRepository.merge(existingFunction, patchDto);
+    const updatedFunction = this.functionRepository.merge(
+      existingFunction,
+      patchDto,
+    );
     const savedFunction = await this.functionRepository.save(updatedFunction);
 
     return savedFunction;

@@ -1,4 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableColumn,
+  TableForeignKey,
+} from 'typeorm';
 import { getDataType } from './utils/data-type.mapper.js';
 
 export class AddExecutionLogTables1735000000000 implements MigrationInterface {
@@ -55,7 +61,7 @@ export class AddExecutionLogTables1735000000000 implements MigrationInterface {
             isNullable: false,
           },
         ],
-      })
+      }),
     );
 
     // Insert log level values
@@ -131,7 +137,7 @@ export class AddExecutionLogTables1735000000000 implements MigrationInterface {
             onDelete: 'CASCADE',
           }),
         ],
-      })
+      }),
     );
     // endregion
 
@@ -203,7 +209,7 @@ export class AddExecutionLogTables1735000000000 implements MigrationInterface {
             referencedColumnNames: ['id'],
           }),
         ],
-      })
+      }),
     );
     // endregion
   }

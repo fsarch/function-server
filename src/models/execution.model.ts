@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { ExecutionEntity } from "../database/entities/execution.entity.js";
-import { LogCreateDto } from "./log.model.js";
+import { ApiProperty } from '@nestjs/swagger';
+import { ExecutionEntity } from '../database/entities/execution.entity.js';
+import { LogCreateDto } from './log.model.js';
 
 // DTO für die List-Ansicht (nur id, creationTime, isSuccess)
 export class ExecutionListDto {
@@ -82,5 +82,3 @@ export class ExecutionCreateDto {
   @ApiProperty({ type: Array, nullable: true })
   logs?: Array<LogCreateDto>;
 }
-
-

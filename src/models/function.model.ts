@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { FunctionEntity } from "../database/entities/function.entity.js";
+import { ApiProperty } from '@nestjs/swagger';
+import { FunctionEntity } from '../database/entities/function.entity.js';
 
 export class FunctionCreateDto {
   @ApiProperty()

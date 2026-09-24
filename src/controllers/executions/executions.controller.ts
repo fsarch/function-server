@@ -1,11 +1,24 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags, ApiNotFoundResponse } from "@nestjs/swagger";
-import { ExecutionService } from "../../repositories/execution/execution.service.js";
-import { ExecutionCreateDto, ExecutionDto, ExecutionListDto } from "../../models/execution.model.js";
-import { LogDto } from "../../models/log.model.js";
-import { InjectRepository } from "@nestjs/typeorm";
-import { LogEntity } from "../../database/entities/log.entity.js";
-import { Repository } from "typeorm";
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { LogEntity } from '../../database/entities/log.entity.js';
+import {
+  ExecutionCreateDto,
+  ExecutionDto,
+  ExecutionListDto,
+} from '../../models/execution.model.js';
+import { LogDto } from '../../models/log.model.js';
+import { ExecutionService } from '../../repositories/execution/execution.service.js';
 
 @ApiTags('executions')
 @Controller({
@@ -23,9 +36,13 @@ export class ExecutionsController {
   @Get()
   @ApiOperation({
     summary: 'List all executions',
-    description: 'Returns a list of all executions with basic information (id, creationTime, isSuccess)',
+    description:
+      'Returns a list of all executions with basic information (id, creationTime, isSuccess)',
   })
-  @ApiOkResponse({ type: [ExecutionListDto], description: 'List of executions' })
+  @ApiOkResponse({
+    type: [ExecutionListDto],
+    description: 'List of executions',
+  })
   public async listAll(): Promise<Array<ExecutionListDto>> {
     return this.executionService.listAll();
   }
@@ -51,9 +68,18 @@ export class ExecutionsController {
     summary: 'List executions by function',
     description: 'Returns a list of executions filtered by function ID',
   })
-  @ApiParam({ name: 'functionId', description: 'UUID of the function', type: String })
-  @ApiOkResponse({ type: [ExecutionListDto], description: 'List of executions for the function' })
-  public async listByFunction(@Param('functionId') functionId: string): Promise<Array<ExecutionListDto>> {
+  @ApiParam({
+    name: 'functionId',
+    description: 'UUID of the function',
+    type: String,
+  })
+  @ApiOkResponse({
+    type: [ExecutionListDto],
+    description: 'List of executions for the function',
+  })
+  public async listByFunction(
+    @Param('functionId') functionId: string,
+  ): Promise<Array<ExecutionListDto>> {
     return this.executionService.listByFunction(functionId);
   }
 
@@ -62,20 +88,35 @@ export class ExecutionsController {
     summary: 'Create a new execution',
     description: 'Creates a new execution with optional logs',
   })
-  @ApiBody({ type: ExecutionCreateDto, description: 'Execution data to create' })
+  @ApiBody({
+    type: ExecutionCreateDto,
+    description: 'Execution data to create',
+  })
   @ApiCreatedResponse({ type: Object, description: 'Created execution ID' })
-  public async create(@Body() createDto: ExecutionCreateDto): Promise<{ id: string; }> {
+  public async create(
+    @Body() createDto: ExecutionCreateDto,
+  ): Promise<{ id: string }> {
     return this.executionService.create(createDto);
   }
 
   @Get(':executionId/logs')
   @ApiOperation({
     summary: 'List logs by execution',
-    description: 'Returns all logs for a specific execution, ordered by creation time',
+    description:
+      'Returns all logs for a specific execution, ordered by creation time',
   })
-  @ApiParam({ name: 'executionId', description: 'UUID of the execution', type: String })
-  @ApiOkResponse({ type: [LogDto], description: 'List of logs for the execution' })
-  public async listLogsByExecution(@Param('executionId') executionId: string): Promise<Array<LogDto>> {
+  @ApiParam({
+    name: 'executionId',
+    description: 'UUID of the execution',
+    type: String,
+  })
+  @ApiOkResponse({
+    type: [LogDto],
+    description: 'List of logs for the execution',
+  })
+  public async listLogsByExecution(
+    @Param('executionId') executionId: string,
+  ): Promise<Array<LogDto>> {
     const logs = await this.logRepository.find({
       where: { executionId },
       order: { creationTime: 'ASC' },

@@ -1,7 +1,7 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ModuleConfigurationService } from '@fsarch/server/configuration';
-import { WorkerConfigType } from "./meta.type.js";
+import { Controller, Get, Inject } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { WorkerConfigType } from './meta.type.js';
 
 @ApiTags('.meta')
 @Controller({
@@ -13,9 +13,7 @@ export class MetaController {
   constructor(
     @Inject('WORKER_CONFIG')
     private readonly workerConfigService: ModuleConfigurationService<WorkerConfigType>,
-
-  ) {
-  }
+  ) {}
 
   @Get('worker')
   public async GetUiMeta() {

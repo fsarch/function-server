@@ -7,6 +7,9 @@ describe('MetaController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MetaController],
+      providers: [
+        { provide: 'WORKER_CONFIG', useValue: { get: () => ({ api: {} }) } },
+      ],
     }).compile();
 
     controller = module.get<MetaController>(MetaController);

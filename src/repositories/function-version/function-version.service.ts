@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { IsNull, LessThanOrEqual, Not, Repository } from "typeorm";
-import { FunctionVersion } from "../../database/entities/function-version.entity.js";
-import { InjectRepository } from "@nestjs/typeorm";
-import { FunctionVersionSetDto } from "../../models/function-version.model.js";
+import { InjectRepository } from '@nestjs/typeorm';
+import { IsNull, LessThanOrEqual, Not, Repository } from 'typeorm';
+import { FunctionVersion } from '../../database/entities/function-version.entity.js';
+import { FunctionVersionSetDto } from '../../models/function-version.model.js';
 
 @Injectable()
 export class FunctionVersionService {
   constructor(
     @InjectRepository(FunctionVersion)
     private readonly functionVersionRepository: Repository<FunctionVersion>,
-  ) {
-  }
+  ) {}
 
   public async GetActiveVersion(functionId: string) {
     return this.functionVersionRepository.findOne({
@@ -77,7 +76,7 @@ export class FunctionVersionService {
   }
 
   public async PublishLatest(functionId: string) {
-    let functionVersion = await this.functionVersionRepository.findOne({
+    const functionVersion = await this.functionVersionRepository.findOne({
       where: {
         functionId,
         isActive: false,
@@ -99,7 +98,7 @@ export class FunctionVersionService {
     // No isActive/publishTime constraint here: this also has to find versions
     // that were already published before (and are currently inactive), so a
     // caller can roll back to an older version, not just publish a fresh draft.
-    let functionVersion = await this.functionVersionRepository.findOne({
+    const functionVersion = await this.functionVersionRepository.findOne({
       where: {
         id: versionId,
         functionId,
@@ -117,16 +116,22 @@ export class FunctionVersionService {
       functionVersion.publishTime = new Date();
     }
 
-    await this.functionVersionRepository.manager.transaction(async (entityManager) => {
-      await entityManager.update(FunctionVersion, {
-        functionId,
-        publishTime: Not(IsNull()),
-      }, {
-        isActive: false,
-      });
+    await this.functionVersionRepository.manager.transaction(
+      async (entityManager) => {
+        await entityManager.update(
+          FunctionVersion,
+          {
+            functionId,
+            publishTime: Not(IsNull()),
+          },
+          {
+            isActive: false,
+          },
+        );
 
-      await entityManager.save(functionVersion);
-    });
+        await entityManager.save(functionVersion);
+      },
+    );
 
     return functionVersion;
   }

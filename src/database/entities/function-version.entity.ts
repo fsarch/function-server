@@ -56,7 +56,7 @@ export class FunctionVersion {
     name: 'code',
     nullable: false,
     type: 'text',
-    default: "''"
+    default: "''",
   })
   code: string;
 

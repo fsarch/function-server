@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { LogEntity } from "../database/entities/log.entity.js";
+import { ApiProperty } from '@nestjs/swagger';
+import { LogEntity } from '../database/entities/log.entity.js';
 
 // DTO für Log-Einträge
 export class LogCreateDto {
