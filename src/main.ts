@@ -1,19 +1,14 @@
 import { FsArchAppBuilder } from '@fsarch/server';
-import { AppModule } from './app.module.js';
-import { DATABASE_OPTIONS } from './database/index.js';
+import { descriptor } from './lib/index.js';
 
 async function bootstrap() {
-  const app = await new FsArchAppBuilder(AppModule, {
+  const app = await new FsArchAppBuilder(descriptor.module.register(), {
     name: 'Function-Server',
     version: '1.0.0',
   })
-    .addSwagger({
-      title: 'Function-Server',
-      description: 'The Function-Server API description',
-      version: '1.0',
-    })
+    .addSwagger(descriptor.swagger)
     .enableAuth()
-    .setDatabase(DATABASE_OPTIONS)
+    .setDatabase({ entities: descriptor.entities, migrations: descriptor.migrations })
     .build();
 
   await app.listen(process.env.PORT ?? 3000);
