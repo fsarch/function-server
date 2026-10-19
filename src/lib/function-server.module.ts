@@ -1,6 +1,5 @@
 import { createServiceModule } from '@fsarch/server';
 import { ModuleConfiguration } from '@fsarch/server/configuration';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import Joi from 'joi';
 import { ExecutionEntity } from '../database/entities/execution.entity.js';
 import { FunctionEntity } from '../database/entities/function.entity.js';
@@ -34,9 +33,18 @@ import { FunctionVersionService } from '../repositories/function-version/functio
  * `services[].config.worker` entry instead of the flat root `worker:`
  * section.
  *
- * `EventEmitterModule.forRoot()` moves here from the old root `AppModule`
- * (no `@OnEvent`/`EventEmitter2` consumer currently exists in this repo,
- * but the wiring is carried forward unchanged).
+ * The old root `AppModule`'s own `EventEmitterModule.forRoot()` is dropped
+ * (not carried forward here) - no `@OnEvent`/`EventEmitter2` consumer exists
+ * in this repo, and `@fsarch/server`'s `FsarchModule` already registers
+ * `EventEmitterModule.forRoot()` globally once per process. A second
+ * registration here is redundant at best - and, mounted alongside other
+ * services via `FsArchAppBuilder.addService()`, a second `global: true`
+ * dynamic-module registration of the same shared `EventEmitterModule` class
+ * is exactly the pattern that was found (for `@nestjs/config`'s
+ * `ConfigModule`, in `image-server`) to corrupt Nest's module-token
+ * bookkeeping for every other concurrently mounted service's own
+ * `AuthModule.register(id)` - see `@fsarch/server`'s mono-service harness
+ * notes.
  *
  * `LogLevelEntity` has no own repository usage (no controller/service
  * directly injects it) but is kept in the entity list, matching the
@@ -58,7 +66,6 @@ export const FunctionServerModule = createServiceModule({
   ],
   providers: [FunctionService, FunctionVersionService, ExecutionService],
   imports: (serviceId) => [
-    EventEmitterModule.forRoot(),
     ModuleConfiguration.register('WORKER_CONFIG', {
       name: 'worker',
       serviceId,
